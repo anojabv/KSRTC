@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoServer Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/ol@latest/dist/ol.css">
+  <script src="https://unpkg.com/ol@latest/dist/ol.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Interactive Map with Query</h2>
+  <div id="map"></div>
+
+  <script>
+    // Define the base map layer
+    var baseLayer = new ol.layer.Tile({
+      source: new ol.source.OSM()
+    });
+
+    // Define your GeoServer WMS layer
+    var wmsLayer = new ol.layer.Tile({
+      source: new ol.source.TileWMS({
+        url: 'http://localhost:8081/geoserver/KSRTC/wms', // Change this to your GeoServer WMS URL
+        params: {
+          'LAYERS': 'KSRTC:ORDINARY_TVPM', // Replace with your layer name
+          'TILED': true,
+          'SRS': 'EPSG:4326'
+        }
+      })
+    });
+
+    // Initialize the map
+    var map = new ol.Map({
+      target: 'map',
+      layers: [baseLayer, wmsLayer],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([77.0249, 8.5241]), // Adjust coordinates (TVPM)
+        zoom: 12
+      })
+    });
+
+    // Set up a click interaction to query features
+    map.on('click', function (event) {
+      var viewResolution = map.getView().getResolution();
+      var url = wmsLayer.getSource().getGetFeatureInfoUrl(
+        event.coordinate, viewResolution, 'EPSG:4326', {'INFO_FORMAT': 'application/json'}
+      );
+      if (url) {
+        $.getJSON(url, function (data) {
+          // Handle the query result here (data.features)
+          console.log(data);
+          alert(JSON.stringify(data, null, 2));  // Display the result in an alert box
+        });
+      }
+    });
+  </script>
+</body>
+</html>

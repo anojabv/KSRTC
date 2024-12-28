@@ -1,0 +1,102 @@
+/* ol.css: Styling for OpenLayers map and elements */
+
+/* Basic map container styling */
+.map, #map {
+    width: 100%;  /* Full width */
+    height: 100%; /* Full height */
+    position: absolute; /* Ensures it stays on top */
+    top: 0;
+    left: 0;
+}
+header {
+    position: relative; /* Keep the title out of the map stacking context */
+    z-index: 1000;      /* Ensure it stays above the map */
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* OpenLayers attribution and controls */
+.ol-control {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+    border-radius: 4px;
+    padding: 5px;
+    margin: 5px;
+}
+
+.ol-scale-line {
+    font-size: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* Popup styling */
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    padding: 15px;
+    border: 1px solid #ccc;
+    bottom: 12px;
+    left: -50px;
+    min-width: 200px;
+    max-width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.ol-popup:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+.ol-popup:before {
+    border-color: rgba(204, 204, 204, 0);
+    border-top-color: #ccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+
+
+.ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    color: #bbb;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ol-popup-closer:after {
+    content: "✖";
+}
+
+.ol-popup-closer:hover {
+    color: #000;
+}
+
+/* Fullscreen control */
+.ol-full-screen {
+    top: 10px;
+    right: 10px;
+}
